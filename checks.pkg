@@ -1,0 +1,13 @@
+checksPackages:
+- name: security-checks
+  files:
+  - checks/security-checks.conf
+- name: data-checks
+  files:
+  - checks/data-checks.conf
+- name: performance-checks
+  files:
+  - checks/performance-checks.conf
+- name: liquibase-metadata-checks
+  files:
+  - checks/liquibase-metadata-checks.conf

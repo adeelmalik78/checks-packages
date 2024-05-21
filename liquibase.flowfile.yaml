@@ -1,0 +1,107 @@
+# validate-changes-update-db.yaml
+# Author: Pete Pickerill
+# Description:
+#   This flow runs several Liquibase commands to generate information that could be useful for review, auditing
+#   and troubleshooting purposes.  It will run in all shared pipeline environments from CI onward. It is not
+#   required in development environments
+
+stages:
+  Validate Changelog:
+    actions:
+    # Run validate on Repo Changelog
+    # https://docs.liquibase.com/commands/update/validate.html
+      - type: liquibase
+        command: validate
+        cmdArgs: {}
+
+      # Show database status
+      # https://docs.liquibase.com/commands/change-tracking/status.html
+      - type: liquibase
+        command: status
+        cmdArgs: { verbose: "true" }
+
+  Run Checks Packages - Security Checks:
+    actions:
+      # Run Checks on Repo Changelog
+      # https://docs.liquibase.com/commands/quality-checks/subcommands/run.html
+      - type: liquibase
+        command: checks run
+        cmdArgs:
+          { checks-scope: "changelog",
+            checks-settings-file: "checks.pkg",
+            checks-packages: "security-checks",
+            changeset-filter: "pending"
+          }
+
+  Run Checks Packages - Data Checks:
+    actions:
+      # Run Checks on Repo Changelog
+      # https://docs.liquibase.com/commands/quality-checks/subcommands/run.html
+      - type: liquibase
+        command: checks run
+        cmdArgs:
+          { checks-scope: "changelog",
+            checks-settings-file: "checks.pkg",
+            checks-packages: "data-checks",
+            changeset-filter: "pending"
+          }
+
+  Run Checks Packages - Performance Checks:
+    actions:
+      # Run Checks on Repo Changelog
+      # https://docs.liquibase.com/commands/quality-checks/subcommands/run.html
+      - type: liquibase
+        command: checks run
+        cmdArgs:
+          { checks-scope: "changelog",
+            checks-settings-file: "checks.pkg",
+            checks-packages: "performance-checks",
+            changeset-filter: "pending"
+          }
+
+  Run Checks Packages - Liquibase Metadata Checks:
+    actions:
+      # Run Checks on Repo Changelog
+      # https://docs.liquibase.com/commands/quality-checks/subcommands/run.html
+      - type: liquibase
+        command: checks run
+        cmdArgs:
+          { checks-scope: "changelog",
+            checks-settings-file: "checks.pkg",
+            checks-packages: "liquibase-metadata-checks",
+            changeset-filter: "pending"
+          }
+
+
+  Database Update:
+    # Run Update on Latest Repo State
+    # https://docs.liquibase.com/commands/update/update-sql.html
+    # actions:
+    #   - type: liquibase
+    #     command: update-sql
+    #     cmdArgs: { }
+
+    # # Run Update on Latest Repo State
+    # # https://docs.liquibase.com/commands/update/update.html
+    actions:
+      - type: liquibase
+        command: update
+        cmdArgs: { }
+
+endStage:
+  actions:
+    # Run Checks on Database
+    # https://docs.liquibase.com/commands/quality-checks/subcommands/run.html
+    # - type: liquibase
+    #   command: checks run
+    #   cmdArgs:
+    #     { checks-scope: "database", 
+    #       checks-settings-file: "liquibase.checks-settings.conf",
+    #       verbose: "true"
+    #     }
+
+    # Show history
+    # https://docs.liquibase.com/commands/change-tracking/history.html
+    - type: liquibase
+      command: history
+      cmdArgs: {}
