@@ -54,7 +54,6 @@
       </rollback>
   </changeSet>
 
-
   <changeSet id="DB-1021" author="amalik">
       <sqlFile path="main/100_ddl/07_exemployee.sql"/>
       <rollback>
@@ -62,6 +61,21 @@
       </rollback>
   </changeSet>
 
+  <changeSet id="DB-1031" author="amalik">
+      <sqlFile path="main/700_dml/Q4-2022_employees.sql"/>
+      <rollback>
+        <sqlFile path="main/700_dml/Q4-2022_employees-rollback.sql"/>
+      </rollback>
+  </changeSet>
+
+  <changeSet id="DB-1032" author="amalik" runAlways="true">
+      <sql>
+        SELECT * FROM employee;
+      </sql>
+      <rollback>
+        empty
+      </rollback>
+  </changeSet>
 
 </databaseChangeLog>
 

@@ -73,7 +73,7 @@ liquibase checks customize --check-name=SqlSelectStarWarn --checks-settings-file
     # Choose severity level [1-4]
 
 --Liquibase Metadata Checks
---Rollback required
+--Rollback Required
 liquibase checks enable --check-name=RollbackRequired --checks-settings-file=checks/liquibase-metadata-checks.conf
 
 liquibase checks customize --check-name=RollbackRequired --checks-settings-file=checks/liquibase-metadata-checks.conf
@@ -128,10 +128,10 @@ liquibase checks show --checks-settings-file=checks.pkg --checks-packages=liquib
 
 
 --run
-liquibase checks run --checks-settings-file=checks.pkg --checks-packages=security-checks
+liquibase checks run --checks-settings-file=checks.pkg --checks-packages=security-checks --changeset-filter=pending
 
-liquibase checks run --checks-settings-file=checks.pkg --checks-packages=data-checks
+liquibase checks run --checks-settings-file=checks.pkg --checks-packages=data-checks --changeset-filter=pending
 
-liquibase checks run --checks-settings-file=checks.pkg --checks-packages=performance-checks
+liquibase checks run --checks-settings-file=checks.pkg --checks-packages=performance-checks --changeset-filter=pending
 
-liquibase checks run --checks-settings-file=checks.pkg --checks-packages=liquibase-metadata-checks
+liquibase checks run --checks-settings-file=checks.pkg --checks-packages=liquibase-metadata-checks --changeset-filter=pending
